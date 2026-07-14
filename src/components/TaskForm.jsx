@@ -1,4 +1,3 @@
-
 export function TaskForm ({task,setTask,addTask,showTypes,handleClick,taskOptions}){
 
     return(

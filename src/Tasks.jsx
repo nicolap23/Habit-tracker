@@ -1,9 +1,4 @@
-
-
-
-
 export function Task({tasks,task_Type,title,deleteTask}){
-
 
     return(
         <div className="bg-white rounded-xl shadow p-5">

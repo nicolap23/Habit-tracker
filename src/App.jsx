@@ -1,11 +1,9 @@
-import {useState } from 'react'
 import './App.css'
-import { Task } from './Tasks'
-import { task_Type,taskTitles,initialTask } from './data/taskData'
-import { TaskForm } from './components/TaskForm'
+import { initialTask } from './data/taskData'
 import { useLocaleStorage } from './hooks/useLocaleStorage'
 import { Habits } from './components/Habits'
-import { Goals } from './components/Goals'
+import { Statistics } from './components/Statistics'
+import { TaskSection } from './components/TaskSection'
 
 function App() {
   
@@ -15,54 +13,15 @@ function App() {
     initialTask
   )
 
-  const [showHabitForm ,setShowHabitForm] = useState(false)
-  
-  const [task, setTask] = useState('')
-  const [showTypes, setShowTypes] = useState(false)
-
-  const [selectedFilter, setSelectedFilter] = useState('')
-
-  const taskOptions = [
-    { value: 'daily', label: 'Día', className:'bg-blue-100' },
-    { value: 'weekly', label: 'Semana', className:'bg-green-100' },
-    { value: 'monthly', label: 'Mes', className:'bg-purple-100' }
-  ]
-
-  const addTask = (type) =>{
-    if (!task.trim()) return
-
-    setTasks(prev =>[
-      ...prev,
-      {
-        id:Date.now(),
-          task,
-          type
-      }
-    ])
-
-    setTask('')
-    setShowTypes(false)
-  }
-
-  const deleteTask = (id) =>{
-    setTasks(tasks.filter(task => task.id !==id))
-  }
-  
-  const handleClick = () =>{
-    if(!task.trim()) return
-
-    setShowTypes(true)
-  }
+   const [habits,setHabits] = useLocaleStorage(
+        'habits',
+        []
+    )
 
   return (
    <div className="min-h-screen bg-gray-100 p-8">
 
-     <select value={selectedFilter} onChange={(e) => setSelectedFilter(e.target.value)}>
-        <option value={''}>Todas</option>
-        <option value={'daily'} >Diarias</option>
-        <option value={'weekly'} >Semanales</option>
-        <option value={'monthly'} >Del mes</option>
-      </select>
+     
   <div className="max-w-6xl mx-auto">
     
     <h1 className="text-4xl font-bold mb-8">
@@ -75,36 +34,16 @@ function App() {
           day: 'numeric',
           month: 'long'
         }).format(time)}
-    </h3>
-</div>
-
-    <TaskForm
-      task={task}
-      setTask={setTask}
-      addTask={addTask}
-      showTypes={showTypes}
-      handleClick={handleClick}
-      taskOptions={taskOptions}
-    />
-
-    <div className="grid md:grid-cols-3 gap-6">
-      {selectedFilter.trim() === '' ? 
-      (
-        <>
-          {Object.keys(task_Type).map(type =>(
-            <Task key={type} tasks={tasks} task_Type={type} title={`Tareas ${taskTitles[type]}`} deleteTask={deleteTask}/>
-          ))}
-        </>
-      ):(
-          <Task tasks={tasks} task_Type={selectedFilter} title={`Tareas ${taskTitles[selectedFilter]}`} deleteTask={deleteTask}/>
-      )  
-    }
-      
+      </h3>
     </div>
 
+    <TaskSection tasks={tasks} setTasks={setTasks}/>
+
     <div className="grid md:grid-cols-2 gap-6 mt-6">  
-      <Habits/>
-      <Goals/>
+      <Habits habits={habits} 
+      setHabits={setHabits} 
+      />
+      <Statistics habits={habits}/>
 
     </div>
   

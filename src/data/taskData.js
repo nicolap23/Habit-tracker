@@ -1,17 +1,14 @@
-
 export const task_Type = {
     daily:"daily",
     weekly :"weekly",
     monthly:"monthly"
   }
 
-
 export const taskTitles = {
   daily: 'Diarias',
   weekly: 'Semanales',
   monthly: 'Del mes'
 }
-
 
 export const initialTask = [
 

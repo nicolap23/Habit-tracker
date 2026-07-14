@@ -1,6 +1,5 @@
 import { useState,useEffect } from "react";
 
-
 export const useLocaleStorage = (key,initialValue) =>{
 
     const [value, setValue] = useState(() =>{
@@ -10,7 +9,6 @@ export const useLocaleStorage = (key,initialValue) =>{
         ? JSON.parse(savedValue)
         : initialValue
     })
-
 
     useEffect(() =>{
         localStorage.setItem(key, JSON.stringify(value))
