@@ -49,47 +49,46 @@ export function TaskSection({tasks,setTasks}){
 
 
     return(
-        <div>
+        <div className="space-y-8">
 
-
-            <select value={selectedFilter} onChange={(e) => setSelectedFilter(e.target.value)}>
-                <option value={''}>Todas</option>
-                <option value={'daily'} >Diarias</option>
-                <option value={'weekly'} >Semanales</option>
-                <option value={'monthly'} >Del mes</option>
-            </select>
-
-            <TaskForm
-                task={task}
-                setTask={setTask}
-                addTask={addTask}
-                showTypes={showTypes}
-                handleClick={handleClick}
-                taskOptions={taskOptions}
-            />  
-
-
-            <div className="grid md:grid-cols-3 gap-6">
-                  {selectedFilter.trim() === '' ? 
-                  (
-                    <>
-                      {Object.keys(task_Type).map(type =>(
-                        <Task key={type} tasks={tasks} task_Type={type} title={`Tareas ${taskTitles[type]}`} deleteTask={deleteTask}/>
-                      ))}
-                    </>
-                  ):(
-                      <Task tasks={tasks} task_Type={selectedFilter} title={`Tareas ${taskTitles[selectedFilter]}`} deleteTask={deleteTask}/>
-                  )  
-                }
-                  
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                <TaskForm
+                    task={task}
+                    setTask={setTask}
+                    addTask={addTask}
+                    showTypes={showTypes}
+                    handleClick={handleClick}
+                    taskOptions={taskOptions}
+                />
+                <div className="mt-6 flex items-center gap-3">
+                    <select 
+                        value={selectedFilter}
+                        onChange={(e) => setSelectedFilter(e.target.value)}
+                        className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-300"
+                    >
+                        <option value="">Todas</option>
+                        <option value="daily">Diarias</option>
+                        <option value="weekly">Semanales</option>
+                        <option value="monthly">Del mes</option>
+                    </select>
+                </div>
             </div>
 
+            <div className="space-y-6">
+                <div className="grid md:grid-cols-3 gap-6">
+                    {selectedFilter.trim() === '' ? 
+                    (
+                        <>
+                        {Object.keys(task_Type).map(type =>(
+                            <Task key={type} tasks={tasks} task_Type={type} title={`Tareas ${taskTitles[type]}`} deleteTask={deleteTask}/>
+                        ))}
+                        </>
+                    ):(
+                        <Task tasks={tasks} task_Type={selectedFilter} title={`Tareas ${taskTitles[selectedFilter]}`} deleteTask={deleteTask}/>
+                    )  
+                    }
+                </div>
+            </div>       
         </div>
-
-        
-
-
-
-
     )
 }
